@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <title>Prompt Generator – AI Prompting</title>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="AI prompting tips, patronen en tools in het Nederlands: leer effectieve prompts schrijven, itereren en de nieuwste AI-updates volgen." />
+    <meta name="keywords" content="AI, prompting, prompt engineering, tips, Nederlands, iteratie, prompt generator" />
+    <meta name="author" content="AI Tips" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AI Prompting – Tips, Tools & Updates" />
+    <meta property="og:description" content="Schrijf betere prompts met onze generator en leer de nieuwste technieken. Inclusief iteratiegids en live updates." />
+    <meta property="og:image" content="/assets/img/hero-social.png" />
+    <meta property="og:url" content="https://example.com/" />
+    <link rel="canonical" href="https://example.com/" />
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+  </head>
+  <body>
+    
+<header class="site-header">
+  <a class="brand" href="/index.html" aria-label="Home">
+    <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l3.5 6 6.5.9-4.7 4.6 1.1 6.5L12 17l-6 3.1 1.1-6.5L2 8.9 8.5 8 12 2z"/></svg>
+    <span>AI Prompting</span>
+  </a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">☰</button>
+  <nav id="site-nav" class="site-nav" aria-label="Hoofdmenu">
+    <a href="/index.html">Home</a>
+    <a href="/generator.html">Prompt Generator</a>
+    <a href="/tips.html">Tips & Patronen</a>
+    <a href="/updates.html">Updates</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle" aria-label="Wissel donker/licht">🌓</button>
+</header>
+
+    <main class="container">
+      <h1>Prompt Generator</h1>
+      <p class="lead">Stel je prompt samen met het 5-delige kader. Kopieer direct of verfijn iteratief.</p>
+      <div class="grid-2">
+        <form id="promptForm" class="panel">
+          <label>Task <span class="hint">Wat moet de AI doen?</span>
+            <textarea name="task" rows="2" placeholder="Bijv. Schrijf een samenvatting van 150 woorden met 3 bullets en een conclusie."></textarea>
+          </label>
+          <label>Role <span class="hint">Welke expertise/rol?</span>
+            <input name="role" type="text" placeholder="Bijv. Je bent een Nederlandse UX-writer."/>
+          </label>
+          <label>Context <span class="hint">Achtergrond, doelgroep, doel</span>
+            <textarea name="context" rows="3" placeholder="Bijv. Voor MBO-studenten; toon vriendelijk; doel: motiveren tot oefenen."></textarea>
+          </label>
+          <div class="grid-2">
+            <label>Constraints <span class="hint">Lengte, toon, bronnen</span>
+              <input name="constraints" type="text" placeholder="Max 200 woorden, actief, citeer 2 bronnen."/>
+            </label>
+            <label>Output format <span class="hint">Structuur</span>
+              <input name="format" type="text" placeholder="Markdown met H2 + bullets; of JSON schema."/>
+            </label>
+          </div>
+          <details>
+            <summary>Voorbeelden (few-shot) – optioneel</summary>
+            <textarea name="examples" rows="4" placeholder="Voorbeeld input → voorbeeld output"></textarea>
+          </details>
+          <div class="grid-2">
+            <label>Stijl
+              <select name="style">
+                <option>Neutraal</option>
+                <option>Vriendelijk</option>
+                <option>Formeel</option>
+                <option>Enthousiast</option>
+              </select>
+            </label>
+            <label>Taal
+              <select name="lang">
+                <option>Nederlands</option>
+                <option>Engels</option>
+              </select>
+            </label>
+          </div>
+          <button type="button" class="btn primary" id="buildBtn">Genereer prompt</button>
+        </form>
+
+        <section class="panel output">
+          <header class="output-header">
+            <h2>Voorbeeldprompt</h2>
+            <div>
+              <button class="btn ghost" id="suggestBtn">Iteratie-suggesties</button>
+              <button class="btn" id="copyBtn">Kopieer</button>
+            </div>
+          </header>
+          <pre id="promptOut" class="codeblock" aria-live="polite"></pre>
+          <div id="suggestions" class="suggestions" hidden></div>
+        </section>
+      </div>
+
+      <aside class="note">
+        <h3>Tip</h3>
+        <p>Gebruik na de eerste output vervolgprompts om te <strong>verfijnen</strong>, <strong>uitbreiden</strong>, <strong>inkorten</strong> of <strong>herformuleren</strong>. Kleine iteraties leveren vaak het beste resultaat op.</p>
+      </aside>
+    </main>
+    
+<footer class="site-footer">
+  <p>© <span id="year"></span> AI Prompting. Gemaakt met ❤️. <a href="/sitemap.xml">Sitemap</a></p>
+</footer>
+<script defer src="/assets/js/main.js"></script>
+
+    <script defer src="/assets/js/generator.js"></script>
+  </body>
+</html>

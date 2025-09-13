@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <title>Tips & Patronen – AI Prompting</title>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="AI prompting tips, patronen en tools in het Nederlands: leer effectieve prompts schrijven, itereren en de nieuwste AI-updates volgen." />
+    <meta name="keywords" content="AI, prompting, prompt engineering, tips, Nederlands, iteratie, prompt generator" />
+    <meta name="author" content="AI Tips" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AI Prompting – Tips, Tools & Updates" />
+    <meta property="og:description" content="Schrijf betere prompts met onze generator en leer de nieuwste technieken. Inclusief iteratiegids en live updates." />
+    <meta property="og:image" content="/assets/img/hero-social.png" />
+    <meta property="og:url" content="https://example.com/" />
+    <link rel="canonical" href="https://example.com/" />
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Wat zijn de 5 onderdelen van een goede prompt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Task, Role, Context, Constraints en Output format."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wat betekent iteratief prompten?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Stap voor stap je prompt en resultaat verbeteren via refine, expand, reduce en reframe."
+          }
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    
+<header class="site-header">
+  <a class="brand" href="/index.html" aria-label="Home">
+    <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l3.5 6 6.5.9-4.7 4.6 1.1 6.5L12 17l-6 3.1 1.1-6.5L2 8.9 8.5 8 12 2z"/></svg>
+    <span>AI Prompting</span>
+  </a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">☰</button>
+  <nav id="site-nav" class="site-nav" aria-label="Hoofdmenu">
+    <a href="/index.html">Home</a>
+    <a href="/generator.html">Prompt Generator</a>
+    <a href="/tips.html">Tips & Patronen</a>
+    <a href="/updates.html">Updates</a>
+  </nav>
+  <button id="themeToggle" class="theme-toggle" aria-label="Wissel donker/licht">🌓</button>
+</header>
+
+    <main class="container">
+      <h1>Tips & Patronen</h1>
+      <section class="panel">
+        <h2>Het 5-delige promptkader</h2>
+        <ul>
+          <li><strong>Task</strong>: duidelijke opdracht in 1–2 zinnen.</li>
+          <li><strong>Role</strong>: benoem expertise/rol en toon.</li>
+          <li><strong>Context</strong>: doelgroep, doel, beperkingen.</li>
+          <li><strong>Constraints</strong>: lengte, stijl, bronnen, taal.</li>
+          <li><strong>Output format</strong>: gewenste structuur (Markdown/JSON/tabel).</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Patronen die werken</h2>
+        <details open>
+          <summary><strong>Chain-of-thought (stap-voor-stap)</strong></summary>
+          <p>Vraag expliciet om tussenstappen of redeneerlijnen. Voorbeeld: “Leg je stappen uit en controleer je antwoord op het einde.”</p>
+        </details>
+        <details>
+          <summary><strong>Few-shot voorbeelden</strong></summary>
+          <p>Laat 1–3 voorbeeldparen (input→output) zien om stijl en structuur vast te zetten.</p>
+        </details>
+        <details>
+          <summary><strong>Self-critique</strong></summary>
+          <p>Laat het model z’n eigen output nalopen met een checklist en verbeterpunten.</p>
+        </details>
+        <details>
+          <summary><strong>Role prompting</strong></summary>
+          <p>Geef een rol die past bij de taak (docent, jurist, marketeer) voor relevantere output.</p>
+        </details>
+      </section>
+
+      <section class="panel">
+        <h2>Snelle checklist</h2>
+        <ul class="checklist">
+          <li>Doel en doelgroep helder?</li>
+          <li>Beperkingen en formaat gespecificeerd?</li>
+          <li>Bronnen of citaties nodig?</li>
+          <li>Vraag om alternatieven (3 varianten)?</li>
+          <li>Plan je iteraties (refine/expand/reduce/reframe)?</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Afbeeldingen & visuals</h2>
+        <p>Voeg je eigen visuals toe in <code>assets/img/</code> en update de <code>alt</code>-teksten. Aanbevolen locaties:</p>
+        <ul>
+          <li><code>assets/img/hero.webp</code> – hero-afbeelding (1600×1000), alt: “Schematische prompt-flow”.</li>
+          <li><code>assets/img/flowchart-prompting.svg</code> – flowchart voor iteratie.</li>
+          <li><code>assets/img/icons/</code> – eenvoudige lijniconen voor kaarten/CTA’s.</li>
+        </ul>
+      </section>
+    </main>
+    
+<footer class="site-footer">
+  <p>© <span id="year"></span> AI Prompting. Gemaakt met ❤️. <a href="/sitemap.xml">Sitemap</a></p>
+</footer>
+<script defer src="/assets/js/main.js"></script>
+
+  </body>
+</html>
