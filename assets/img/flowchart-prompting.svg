@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="600" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .step { fill: #e0e7ff; stroke: #7c3aed; stroke-width: 2; rx: 12; }
+    .label { font-family: sans-serif; font-size: 24px; fill: #1e1b4b; }
+    .arrow { stroke: #06b6d4; stroke-width: 4; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#06b6d4" />
+    </marker>
+  </defs>
+  <rect x="100" y="200" width="200" height="80" class="step" />
+  <text x="130" y="250" class="label">Refine</text>
+  <line x1="300" y1="240" x2="400" y2="240" class="arrow" />
+
+  <rect x="400" y="200" width="200" height="80" class="step" />
+  <text x="430" y="250" class="label">Expand</text>
+  <line x1="600" y1="240" x2="700" y2="240" class="arrow" />
+
+  <rect x="700" y="200" width="200" height="80" class="step" />
+  <text x="730" y="250" class="label">Reduce</text>
+  <line x1="900" y1="240" x2="1000" y2="240" class="arrow" />
+
+  <rect x="1000" y="200" width="200" height="80" class="step" />
+  <text x="1020" y="250" class="label">Reframe</text>
+</svg>
