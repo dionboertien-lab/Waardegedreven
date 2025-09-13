@@ -1,4 +1,3 @@
-
 User-agent: *
 Allow: /
 Sitemap: https://dionboertien-lab.github.io/AIsite/sitemap.xml
