@@ -6,7 +6,28 @@
 
 ## Waar we zijn
 
-Het concept, de methodologie, het algoritme en de MVP-scope zijn volledig uitgewerkt en vastgelegd. De volgende sessie kan direct starten met bouwen.
+Concept, methodologie, algoritme en MVP-scope zijn uitgewerkt. De Expo-app is
+gebouwd (6 schermen, algoritme, storage, navigatie) en heeft een **kritische
+Opus-review** + **fix-ronde** doorlopen. Klaar voor de review van de gebruiker.
+
+### Verwerkt uit de code-review (K1-K4, B1-B6)
+- **K1** Week wordt nu afgeleid uit de startdatum → reflecties krijgen unieke
+  week-id's, roterend schema werkt, geen overschrijven meer.
+- **K2** Globale state via `KernContext` → schermen verversen direct na wijziging.
+- **K3** Onboarding-gate is reactief → na intake schakelt de app vanzelf naar Main.
+- **K4** Append-only datamodel (`KernData`: intakes[] + reflecties[]) + stabiele
+  `userId` + reflecties gekoppeld aan intake. Historie blijft bewaard.
+- **B1** Gedeelde-noemer normalisatie → gap is een echte belang-vs-geleefd afstand.
+- **B2** Circumplex-validatie (`vindSpanningen`) zichtbaar in ProfielReveal.
+- **B3** Lerend profiel (`updateLivedNaReflecties`) daadwerkelijk bedraad.
+- **B4** 10 vragen i.p.v. 6, elke waarde ≥5× bereikbaar.
+- **B5/B6** Veilige deling in balken + locale-onafhankelijke dag-check (`getDay`).
+- **N1/N4** Typed navigatie zonder `as any`-casts + try/catch rond storage-parse.
+
+### Nog open (bewust, voor latere fases)
+- Backend/identiteit-keuze (Supabase/Firebase) — nu nog lokaal, userId is voorbereid.
+- Push notificaties voor het ma/vr-ritme.
+- Kwartaal-herintake flow (datamodel ondersteunt het al via profielVersie).
 
 ---
 

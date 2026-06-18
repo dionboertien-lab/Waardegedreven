@@ -1,6 +1,29 @@
 # Kern — Het Algoritme
 
-> Hoe worden 6 gedragsantwoorden een Schwartz-waardenprofiel met Values Bridge gap?
+> Hoe worden gedragsantwoorden een Schwartz-waardenprofiel met Values Bridge gap?
+
+---
+
+## ⚠️ Wijzigingen na code-review (juni 2026)
+
+De implementatie wijkt op punten af van de oorspronkelijke beschrijving hieronder.
+Deze sectie is leidend waar hij conflicteert met de rest van het document:
+
+1. **10 vragen i.p.v. 6.** Vragen 7-10 zijn toegevoegd om Tradition en Hedonism
+   (eerder maar 2× bereikbaar) en Conformity/Universalism/Power beter te dekken.
+   Elke waarde is nu minimaal 5× bereikbaar.
+2. **Normalisatie op gedeelde noemer.** Belang én geleefd worden per waarde door
+   *dezelfde* theoretische max gedeeld (berekend uit de matrix), niet meer relatief
+   aan de eigen as-max. Hierdoor is de gap een echte belang-vs-geleefd afstand op
+   één schaal i.p.v. het verschil tussen twee onafhankelijk geschaalde assen.
+3. **Circumplex-validatie geïmplementeerd** als `vindSpanningen()` — toont
+   tegengestelde waarden die beide hoog scoren als inzicht in het ProfielReveal-scherm.
+4. **Lerend profiel bedraad** als `updateLivedNaReflecties()` — commitment-resultaten
+   (Ja/Deels/Nee → 8.5/5.5/2.5) verfijnen het geleefd-cijfer, zwaarder wegend naarmate
+   de weken vorderen.
+5. **Datamodel is append-only** (`KernData` met `intakes[]` + `reflecties[]`) zodat
+   historie bewaard blijft voor de longitudinale tijdlijn. `weekIndex` wordt afgeleid
+   uit de startdatum, niet uit een teller.
 
 ---
 

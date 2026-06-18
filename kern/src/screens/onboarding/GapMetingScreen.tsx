@@ -3,49 +3,41 @@ import {
   View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView,
 } from 'react-native'
 import Slider from '@react-native-community/slider'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { RouteProp } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { OnboardingStackParams } from '../../navigation'
 import { KLEUREN, gapKleur } from '../../constants/kleuren'
-import {
-  berekenProfiel, berekenGap, VraagAntwoord, WaardeNaam, WaardenScores, GebruikersProfiel,
-} from '../../lib/algoritme'
-import { slaProfielOp, markeerOnboardingKlaar } from '../../lib/storage'
+import { berekenGap, Intake, WaardenScores } from '../../lib/algoritme'
+import { useKern } from '../../store/KernContext'
+import { genereerId } from '../../lib/storage'
 
-type Props = {
-  navigation: NativeStackNavigationProp<OnboardingStackParams, 'GapMeting'>
-  route: RouteProp<
-    OnboardingStackParams & { GapMeting: { antwoorden: VraagAntwoord[]; top5: WaardeNaam[] } },
-    'GapMeting'
-  >
-}
+type Props = NativeStackScreenProps<OnboardingStackParams, 'GapMeting'>
 
-export default function GapMetingScreen({ navigation, route }: Props) {
-  const params = (route.params as any) ?? {}
-  const antwoorden: VraagAntwoord[] = params.antwoorden ?? []
-  const top5: WaardeNaam[] = params.top5 ?? []
-
-  const resultaat = berekenProfiel(antwoorden)
+export default function GapMetingScreen({ route }: Props) {
+  const { antwoorden, resultaat } = route.params
+  const { data, voegIntakeToe } = useKern()
+  const top5 = resultaat.top5
 
   const [importance, setImportance] = useState<WaardenScores>(resultaat.berekendImportance)
   const [lived, setLived] = useState<WaardenScores>(resultaat.berekendLived)
+  const [bezig, setBezig] = useState(false)
 
   async function slaOp() {
+    if (bezig) return
+    setBezig(true)
     const gap = berekenGap(importance, lived)
-    const profiel: GebruikersProfiel = {
-      id: Date.now().toString(),
-      aangemaakt: new Date().toISOString(),
-      baselineImportance: importance,
-      baselineLived: lived,
-      gapScores: gap,
+    const intake: Intake = {
+      id: genereerId(),
+      userId: data?.userId ?? genereerId(),
+      timestamp: new Date().toISOString(),
+      antwoorden,
+      importance,
+      lived,
+      gap,
       top5,
-      profielVersie: 1,
-      weekCount: 0,
+      profielVersie: (data?.intakes.length ?? 0) + 1,
     }
-    await slaProfielOp(profiel)
-    await markeerOnboardingKlaar()
-    // Navigeer naar hoofdapp — reload via App.tsx state
-    navigation.getParent()?.reset({ index: 0, routes: [{ name: 'Main' }] })
+    // Context schakelt de RootStack reactief naar Main — geen handmatige reset.
+    await voegIntakeToe(intake)
   }
 
   return (
@@ -54,7 +46,7 @@ export default function GapMetingScreen({ navigation, route }: Props) {
         <Text style={stijlen.label}>Jouw startpunt</Text>
         <Text style={stijlen.titel}>Hoe sterk leef je{'\n'}ze al?</Text>
         <Text style={stijlen.uitleg}>
-          De linker balk is vooringevuld op basis van jouw antwoorden. Pas aan als het niet klopt.
+          De waarden zijn vooringevuld op basis van jouw antwoorden. Pas aan als het niet klopt.
         </Text>
 
         {top5.map((waarde) => {
@@ -67,9 +59,7 @@ export default function GapMetingScreen({ navigation, route }: Props) {
               <View style={stijlen.waardeHeader}>
                 <Text style={stijlen.waardeNaam}>{waarde}</Text>
                 <View style={[stijlen.gapBadge, { backgroundColor: gapKleur(gap) + '22' }]}>
-                  <Text style={[stijlen.gapTekst, { color: gapKleur(gap) }]}>
-                    gap {gap.toFixed(1)}
-                  </Text>
+                  <Text style={[stijlen.gapTekst, { color: gapKleur(gap) }]}>gap {gap.toFixed(1)}</Text>
                 </View>
               </View>
 
@@ -108,7 +98,7 @@ export default function GapMetingScreen({ navigation, route }: Props) {
           )
         })}
 
-        <TouchableOpacity style={stijlen.knop} onPress={slaOp}>
+        <TouchableOpacity style={[stijlen.knop, bezig && stijlen.knopUitgeschakeld]} onPress={slaOp} disabled={bezig}>
           <Text style={stijlen.knopTekst}>Dit klopt — start mijn journey</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -128,12 +118,7 @@ const stijlen = StyleSheet.create({
   },
   titel: { fontSize: 30, fontWeight: '700', color: KLEUREN.tekstPrimair, lineHeight: 38 },
   uitleg: { fontSize: 14, color: KLEUREN.tekstSecundair, lineHeight: 20 },
-  waardeBlok: {
-    backgroundColor: KLEUREN.kaart,
-    borderRadius: 16,
-    padding: 18,
-    gap: 12,
-  },
+  waardeBlok: { backgroundColor: KLEUREN.kaart, borderRadius: 16, padding: 18, gap: 12 },
   waardeHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   waardeNaam: { fontSize: 17, fontWeight: '700', color: KLEUREN.tekstPrimair },
   gapBadge: { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
@@ -142,12 +127,7 @@ const stijlen = StyleSheet.create({
   sliderLabel: { width: 54, fontSize: 12, color: KLEUREN.tekstSecundair, fontWeight: '500' },
   slider: { flex: 1 },
   sliderWaarde: { width: 28, fontSize: 13, fontWeight: '700', color: KLEUREN.tekstPrimair, textAlign: 'right' },
-  knop: {
-    backgroundColor: KLEUREN.primair,
-    borderRadius: 14,
-    paddingVertical: 18,
-    alignItems: 'center',
-    marginTop: 8,
-  },
+  knop: { backgroundColor: KLEUREN.primair, borderRadius: 14, paddingVertical: 18, alignItems: 'center', marginTop: 8 },
+  knopUitgeschakeld: { opacity: 0.5 },
   knopTekst: { color: KLEUREN.wit, fontSize: 17, fontWeight: '700' },
 })

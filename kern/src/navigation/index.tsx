@@ -12,12 +12,14 @@ import HomeScreen from '../screens/main/HomeScreen'
 import ReflectieScreen from '../screens/main/ReflectieScreen'
 import ProfielScreen from '../screens/main/ProfielScreen'
 import { KLEUREN } from '../constants/kleuren'
+import { IntakeResultaat } from '../lib/algoritme'
+import { VraagAntwoord } from '../lib/algoritme/types'
 
 export type OnboardingStackParams = {
   Welkom: undefined
   GedragsIntake: undefined
-  ProfielReveal: { antwoorden: import('../lib/algoritme').VraagAntwoord[] }
-  GapMeting: { antwoorden: import('../lib/algoritme').VraagAntwoord[]; top5: import('../lib/algoritme').WaardeNaam[] }
+  ProfielReveal: { antwoorden: VraagAntwoord[]; resultaat: IntakeResultaat }
+  GapMeting: { antwoorden: VraagAntwoord[]; resultaat: IntakeResultaat }
 }
 
 export type MainTabParams = {

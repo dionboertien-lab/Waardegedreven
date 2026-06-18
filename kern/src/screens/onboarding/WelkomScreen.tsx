@@ -23,7 +23,7 @@ export default function WelkomScreen({ navigation }: Props) {
           </Text>
           <Text style={stijlen.beschrijving}>
             Kern ontdekt jouw waarden via je gedrag — en laat zien hoe dicht
-            je bij jezelf leeft. Zes vragen. Geen goede of foute antwoorden.
+            je bij jezelf leeft. Tien vragen. Geen goede of foute antwoorden.
           </Text>
         </View>
 
@@ -34,7 +34,7 @@ export default function WelkomScreen({ navigation }: Props) {
           >
             <Text style={stijlen.knopTekst}>Begin</Text>
           </TouchableOpacity>
-          <Text style={stijlen.tijdIndicator}>~ 8 minuten</Text>
+          <Text style={stijlen.tijdIndicator}>~ 10 minuten</Text>
         </View>
       </View>
     </SafeAreaView>

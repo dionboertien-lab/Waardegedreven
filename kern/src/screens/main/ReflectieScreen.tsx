@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   View, Text, StyleSheet, SafeAreaView, ScrollView,
   TouchableOpacity, TextInput, KeyboardAvoidingView, Platform,
 } from 'react-native'
 import { KLEUREN } from '../../constants/kleuren'
-import { GebruikersProfiel, WaardeNaam, WekelijkseReflectie } from '../../lib/algoritme'
-import { laadProfiel, slaReflectieOp, laadReflecties } from '../../lib/storage'
+import { CommitmentResultaat, WaardeNaam, WekelijkseReflectie } from '../../lib/algoritme'
+import { useKern } from '../../store/KernContext'
+import { huidigeReflectieDag } from '../../lib/datum'
 
 const MAANDAG_VRAGEN = [
   (w: WaardeNaam) => `Wanneer leefde je "${w}" de afgelopen week — en wanneer liet je het liggen?`,
@@ -19,57 +20,16 @@ const ACT_PROMPTS = [
   'Wat is één kleine stap die je deze week kunt zetten?',
 ]
 
-type Dag = 'maandag' | 'vrijdag' | 'anders'
-
-function huidigeReflectieDag(): Dag {
-  const dag = new Date().toLocaleDateString('nl-NL', { weekday: 'long' })
-  if (dag === 'maandag') return 'maandag'
-  if (dag === 'vrijdag') return 'vrijdag'
-  return 'anders'
-}
-
 export default function ReflectieScreen() {
-  const [profiel, setProfiel] = useState<GebruikersProfiel | null>(null)
-  const [huidigeReflectie, setHuidigeReflectie] = useState<WekelijkseReflectie | null>(null)
-  const [tekst, setTekst] = useState('')
-  const [commitment, setCommitment] = useState('')
-  const [commitmentResultaat, setCommitmentResultaat] = useState<'Ja' | 'Deels' | 'Nee' | null>(null)
-  const [opgeslagen, setOpgeslagen] = useState(false)
+  const { data, profiel, voegReflectieToe } = useKern()
   const dag = huidigeReflectieDag()
 
-  useEffect(() => {
-    async function laad() {
-      const p = await laadProfiel()
-      setProfiel(p)
-      if (p) {
-        const reflecties = await laadReflecties()
-        const dezeWeek = reflecties.find((r) => r.week === p.weekCount)
-        setHuidigeReflectie(dezeWeek ?? null)
-        if (dezeWeek?.commitmentTekst) setCommitment(dezeWeek.commitmentTekst)
-      }
-    }
-    laad()
-  }, [])
+  const [tekst, setTekst] = useState('')
+  const [commitment, setCommitment] = useState('')
+  const [commitmentResultaat, setCommitmentResultaat] = useState<CommitmentResultaat | null>(null)
+  const [opgeslagen, setOpgeslagen] = useState(false)
 
-  async function slaOp() {
-    if (!profiel || !tekst.trim()) return
-    const waardeIndex = profiel.weekCount % profiel.top5.length
-    const waarde = profiel.top5[waardeIndex]
-    const reflectie: WekelijkseReflectie = {
-      id: `${profiel.weekCount}-${dag}`,
-      week: profiel.weekCount,
-      waarde,
-      uitgedrukt: true,
-      tekst: tekst.trim(),
-      commitmentTekst: commitment.trim(),
-      commitmentResultaat: dag === 'vrijdag' ? commitmentResultaat ?? undefined : undefined,
-      aangemaakt: new Date().toISOString(),
-    }
-    await slaReflectieOp(reflectie)
-    setOpgeslagen(true)
-  }
-
-  if (!profiel) {
+  if (!profiel || !data) {
     return (
       <SafeAreaView style={stijlen.container}>
         <View style={stijlen.laden}>
@@ -79,10 +39,32 @@ export default function ReflectieScreen() {
     )
   }
 
-  const waardeIndex = profiel.weekCount % profiel.top5.length
-  const waarde = profiel.top5[waardeIndex]
-  const vraag = MAANDAG_VRAGEN[profiel.weekCount % MAANDAG_VRAGEN.length](waarde)
-  const actPrompt = ACT_PROMPTS[profiel.weekCount % ACT_PROMPTS.length]
+  const week = profiel.weekIndex
+  const waarde = profiel.top5[week % profiel.top5.length]
+  const vraag = MAANDAG_VRAGEN[week % MAANDAG_VRAGEN.length](waarde)
+  const actPrompt = ACT_PROMPTS[week % ACT_PROMPTS.length]
+
+  // Vrijdag haalt de maandag-commitment van deze week op voor de check-in.
+  const maandagId = `${profiel.id}-w${week}-maandag`
+  const maandagReflectie = data.reflecties.find((r) => r.id === maandagId)
+
+  async function slaOp() {
+    if (!profiel || !tekst.trim()) return
+    const reflectie: WekelijkseReflectie = {
+      id: `${profiel.id}-w${week}-${dag}`,
+      week,
+      intakeId: profiel.id,
+      profielVersie: profiel.profielVersie,
+      waarde,
+      uitgedrukt: true,
+      tekst: tekst.trim(),
+      commitmentTekst: commitment.trim(),
+      commitmentResultaat: dag === 'vrijdag' ? commitmentResultaat ?? undefined : undefined,
+      aangemaakt: new Date().toISOString(),
+    }
+    await voegReflectieToe(reflectie)
+    setOpgeslagen(true)
+  }
 
   if (opgeslagen) {
     return (
@@ -99,30 +81,25 @@ export default function ReflectieScreen() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <SafeAreaView style={stijlen.container}>
         <ScrollView contentContainerStyle={stijlen.inhoud} showsVerticalScrollIndicator={false}>
-          {/* Header */}
           <View style={stijlen.header}>
-            <Text style={stijlen.dag}>{dag === 'anders' ? 'Reflectie' : dag.charAt(0).toUpperCase() + dag.slice(1)}</Text>
+            <Text style={stijlen.dag}>
+              {dag === 'anders' ? 'Reflectie' : dag.charAt(0).toUpperCase() + dag.slice(1)}
+            </Text>
             <View style={[stijlen.waardeBadge, { backgroundColor: KLEUREN.waardeKleuren[waarde] + '22' }]}>
-              <Text style={[stijlen.waardeBadgeTekst, { color: KLEUREN.waardeKleuren[waarde] }]}>
-                {waarde}
-              </Text>
+              <Text style={[stijlen.waardeBadgeTekst, { color: KLEUREN.waardeKleuren[waarde] }]}>{waarde}</Text>
             </View>
           </View>
 
-          {/* Vrijdag: eerst check-in op commitment */}
-          {dag === 'vrijdag' && huidigeReflectie?.commitmentTekst && (
+          {dag === 'vrijdag' && maandagReflectie?.commitmentTekst ? (
             <View style={stijlen.checkInBlok}>
               <Text style={stijlen.checkInLabel}>Jouw commitment van maandag</Text>
-              <Text style={stijlen.checkInCommitment}>"{huidigeReflectie.commitmentTekst}"</Text>
+              <Text style={stijlen.checkInCommitment}>"{maandagReflectie.commitmentTekst}"</Text>
               <Text style={stijlen.checkInVraag}>Lukte het?</Text>
               <View style={stijlen.resultaatKnoppen}>
-                {(['Ja', 'Deels', 'Nee'] as const).map((r) => (
+                {(['Ja', 'Deels', 'Nee'] as CommitmentResultaat[]).map((r) => (
                   <TouchableOpacity
                     key={r}
                     style={[stijlen.resultaatKnop, commitmentResultaat === r && stijlen.resultaatGeselecteerd]}
@@ -135,9 +112,8 @@ export default function ReflectieScreen() {
                 ))}
               </View>
             </View>
-          )}
+          ) : null}
 
-          {/* Reflectievraag */}
           <View style={stijlen.vraagBlok}>
             <Text style={stijlen.vraagTekst}>{vraag}</Text>
           </View>
@@ -152,11 +128,8 @@ export default function ReflectieScreen() {
             textAlignVertical="top"
           />
 
-          {/* ACT micro-commitment */}
           <View style={stijlen.actBlok}>
-            <View style={stijlen.actHeader}>
-              <Text style={stijlen.actLabel}>Commitment</Text>
-            </View>
+            <Text style={stijlen.actLabel}>Commitment</Text>
             <Text style={stijlen.actVraag}>{actPrompt}</Text>
             <TextInput
               style={stijlen.commitmentInvoer}
@@ -189,12 +162,7 @@ const stijlen = StyleSheet.create({
   dag: { fontSize: 28, fontWeight: '800', color: KLEUREN.tekstPrimair },
   waardeBadge: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 6 },
   waardeBadgeTekst: { fontSize: 13, fontWeight: '700' },
-  checkInBlok: {
-    backgroundColor: KLEUREN.kaart,
-    borderRadius: 16,
-    padding: 18,
-    gap: 10,
-  },
+  checkInBlok: { backgroundColor: KLEUREN.kaart, borderRadius: 16, padding: 18, gap: 10 },
   checkInLabel: { fontSize: 11, fontWeight: '600', color: KLEUREN.tekstSecundair, textTransform: 'uppercase', letterSpacing: 1 },
   checkInCommitment: { fontSize: 15, fontStyle: 'italic', color: KLEUREN.tekstPrimair, lineHeight: 22 },
   checkInVraag: { fontSize: 15, fontWeight: '600', color: KLEUREN.tekstPrimair },
@@ -222,7 +190,6 @@ const stijlen = StyleSheet.create({
     lineHeight: 22,
   },
   actBlok: { backgroundColor: KLEUREN.kaart, borderRadius: 14, padding: 16, gap: 10 },
-  actHeader: { flexDirection: 'row', alignItems: 'center' },
   actLabel: { fontSize: 12, fontWeight: '700', color: KLEUREN.accent, textTransform: 'uppercase', letterSpacing: 1 },
   actVraag: { fontSize: 14, color: KLEUREN.tekstPrimair, lineHeight: 20 },
   commitmentInvoer: {
@@ -232,12 +199,7 @@ const stijlen = StyleSheet.create({
     fontSize: 14,
     color: KLEUREN.tekstPrimair,
   },
-  knop: {
-    backgroundColor: KLEUREN.primair,
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
+  knop: { backgroundColor: KLEUREN.primair, borderRadius: 14, paddingVertical: 16, alignItems: 'center' },
   knopUitgeschakeld: { opacity: 0.35 },
   knopTekst: { color: KLEUREN.wit, fontSize: 16, fontWeight: '700' },
   bevestiging: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 32 },

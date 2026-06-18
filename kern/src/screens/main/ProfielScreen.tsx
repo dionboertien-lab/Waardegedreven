@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
 import { KLEUREN, gapKleur } from '../../constants/kleuren'
-import { GebruikersProfiel, WaardeNaam, WekelijkseReflectie } from '../../lib/algoritme'
-import { laadProfiel, laadReflecties } from '../../lib/storage'
+import { WaardeNaam } from '../../lib/algoritme'
+import { useKern } from '../../store/KernContext'
 
 const WAARDE_OMSCHRIJVING: Record<WaardeNaam, string> = {
   'Self-Direction': 'Eigen keuzes, vrijheid, authenticiteit',
@@ -18,20 +18,10 @@ const WAARDE_OMSCHRIJVING: Record<WaardeNaam, string> = {
 }
 
 export default function ProfielScreen() {
-  const [profiel, setProfiel] = useState<GebruikersProfiel | null>(null)
-  const [reflecties, setReflecties] = useState<WekelijkseReflectie[]>([])
+  const { data, profiel } = useKern()
   const [uitgebreid, setUitgebreid] = useState<WaardeNaam | null>(null)
 
-  useEffect(() => {
-    async function laad() {
-      const [p, r] = await Promise.all([laadProfiel(), laadReflecties()])
-      setProfiel(p)
-      setReflecties(r)
-    }
-    laad()
-  }, [])
-
-  if (!profiel) {
+  if (!profiel || !data) {
     return (
       <SafeAreaView style={stijlen.container}>
         <View style={stijlen.laden}>
@@ -41,27 +31,25 @@ export default function ProfielScreen() {
     )
   }
 
-  const dagenActief = Math.floor(
-    (Date.now() - new Date(profiel.aangemaakt).getTime()) / (1000 * 60 * 60 * 24)
-  )
+  const reflecties = data.reflecties.filter((r) => r.intakeId === profiel.id)
+  const dagenActief = Math.floor((Date.now() - new Date(profiel.aangemaakt).getTime()) / (1000 * 60 * 60 * 24))
 
   return (
     <SafeAreaView style={stijlen.container}>
       <ScrollView contentContainerStyle={stijlen.inhoud} showsVerticalScrollIndicator={false}>
-        {/* Header */}
         <View style={stijlen.header}>
           <Text style={stijlen.titel}>Jouw profiel</Text>
           <Text style={stijlen.subTitel}>{dagenActief} dagen actief · {reflecties.length} reflecties</Text>
         </View>
 
-        {/* Top 5 waarden */}
         <Text style={stijlen.sectieKop}>Jouw top 5 waarden</Text>
         <View style={stijlen.kaartLijst}>
-          {profiel.top5.map((waarde, index) => {
+          {profiel.top5.map((waarde) => {
             const imp = profiel.baselineImportance[waarde] ?? 0
             const liv = profiel.baselineLived[waarde] ?? 0
             const gap = Math.max(0, imp - liv)
             const isUitgebreid = uitgebreid === waarde
+            const waardeReflecties = reflecties.filter((r) => r.waarde === waarde)
 
             return (
               <TouchableOpacity
@@ -72,7 +60,7 @@ export default function ProfielScreen() {
                 <View style={stijlen.kaartHeader}>
                   <View style={stijlen.kaartLinks}>
                     <View style={[stijlen.kleurPunt, { backgroundColor: KLEUREN.waardeKleuren[waarde] }]} />
-                    <View>
+                    <View style={stijlen.kaartTitels}>
                       <Text style={stijlen.waardeNaam}>{waarde}</Text>
                       <Text style={stijlen.waardeOmschrijving}>{WAARDE_OMSCHRIJVING[waarde]}</Text>
                     </View>
@@ -80,7 +68,6 @@ export default function ProfielScreen() {
                   <Text style={stijlen.uitbreidIcon}>{isUitgebreid ? '▲' : '▼'}</Text>
                 </View>
 
-                {/* Gap visualisatie */}
                 <View style={stijlen.gapVisueel}>
                   <View style={stijlen.gapRij}>
                     <Text style={stijlen.gapRijLabel}>Belang</Text>
@@ -98,27 +85,22 @@ export default function ProfielScreen() {
                   </View>
                 </View>
 
-                {/* Uitgebreide reflectiehistory */}
                 {isUitgebreid && (
                   <View style={stijlen.reflectieHistorie}>
                     <Text style={stijlen.reflectieHistorieTitel}>Reflecties</Text>
-                    {reflecties
-                      .filter((r) => r.waarde === waarde)
-                      .slice(-3)
-                      .reverse()
-                      .map((r) => (
-                        <View key={r.id} style={stijlen.reflectieItem}>
-                          <Text style={stijlen.reflectieWeek}>Week {r.week + 1}</Text>
-                          <Text style={stijlen.reflectieTekst} numberOfLines={3}>{r.tekst}</Text>
-                          {r.commitmentTekst ? (
-                            <Text style={stijlen.commitmentTekst}>
-                              → {r.commitmentTekst}
-                              {r.commitmentResultaat ? ` (${r.commitmentResultaat})` : ''}
-                            </Text>
-                          ) : null}
-                        </View>
-                      ))}
-                    {reflecties.filter((r) => r.waarde === waarde).length === 0 && (
+                    {waardeReflecties.slice(-3).reverse().map((r) => (
+                      <View key={r.id} style={stijlen.reflectieItem}>
+                        <Text style={stijlen.reflectieWeek}>Week {r.week + 1}</Text>
+                        <Text style={stijlen.reflectieTekst} numberOfLines={3}>{r.tekst}</Text>
+                        {r.commitmentTekst ? (
+                          <Text style={stijlen.commitmentTekst}>
+                            → {r.commitmentTekst}
+                            {r.commitmentResultaat ? ` (${r.commitmentResultaat})` : ''}
+                          </Text>
+                        ) : null}
+                      </View>
+                    ))}
+                    {waardeReflecties.length === 0 && (
                       <Text style={stijlen.geenReflecties}>Nog geen reflecties voor deze waarde.</Text>
                     )}
                   </View>
@@ -128,7 +110,6 @@ export default function ProfielScreen() {
           })}
         </View>
 
-        {/* Gestart op */}
         <Text style={stijlen.voetTekst}>
           Gestart op {new Date(profiel.aangemaakt).toLocaleDateString('nl-NL', {
             day: 'numeric', month: 'long', year: 'numeric',
@@ -149,15 +130,11 @@ const stijlen = StyleSheet.create({
   subTitel: { fontSize: 13, color: KLEUREN.tekstSecundair, marginTop: 4 },
   sectieKop: { fontSize: 16, fontWeight: '700', color: KLEUREN.tekstPrimair },
   kaartLijst: { gap: 12 },
-  waardeKaart: {
-    backgroundColor: KLEUREN.kaart,
-    borderRadius: 16,
-    padding: 16,
-    gap: 12,
-  },
+  waardeKaart: { backgroundColor: KLEUREN.kaart, borderRadius: 16, padding: 16, gap: 12 },
   kaartHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   kaartLinks: { flexDirection: 'row', gap: 12, alignItems: 'flex-start', flex: 1 },
   kleurPunt: { width: 12, height: 12, borderRadius: 6, marginTop: 4 },
+  kaartTitels: { flex: 1 },
   waardeNaam: { fontSize: 16, fontWeight: '700', color: KLEUREN.tekstPrimair },
   waardeOmschrijving: { fontSize: 12, color: KLEUREN.tekstSecundair, marginTop: 2 },
   uitbreidIcon: { fontSize: 10, color: KLEUREN.tekstLicht },
