@@ -8,7 +8,7 @@ index 1234567..abcdefg 100644
    fbjni
    jsi
    reactnative
-+  c++_shared
++  -lc++_shared
  )
 diff --git a/android/src/main/jni/CMakeLists.txt b/android/src/main/jni/CMakeLists.txt
 index 1234567..abcdefg 100644
@@ -20,5 +20,5 @@ index 1234567..abcdefg 100644
    ReactAndroid::reactnative
    ReactAndroid::jsi
    fbjni::fbjni
-+  c++_shared
++  -lc++_shared
  )
