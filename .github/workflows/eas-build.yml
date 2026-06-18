@@ -1,0 +1,37 @@
+name: EAS Build (preview APK)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'kern/**'
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kern
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: kern/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build preview APK
+        run: eas build --platform android --profile preview --non-interactive
