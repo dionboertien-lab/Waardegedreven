@@ -1,4 +1,4 @@
-# Kern — Status & Voortgang
+# Waardegedreven — Status & Voortgang
 
 *Laatste update: juni 2026*
 
@@ -35,7 +35,7 @@ Opus-review** + **fix-ronde** doorlopen. Klaar voor de review van de gebruiker.
 
 | Onderwerp | Beslissing |
 |---|---|
-| Naam | Kern (werknaam) |
+| Naam | Waardegedreven (werknaam) |
 | Theoretisch fundament | Schwartz (meten) + Values Bridge (gap) + ACT (handelen) |
 | Startpunt | Gedrag eerst — niet abstracte zelfrapportage |
 | Kernbelofte | De gap tussen wie je bent en hoe je leeft wordt zichtbaar en krimpt |
@@ -51,11 +51,11 @@ Opus-review** + **fix-ronde** doorlopen. Klaar voor de review van de gebruiker.
 
 | Bestand | Inhoud |
 |---|---|
-| `kern-concept.md` | Volledig visiedocument — concept, pillars, app flow, verdienmodel |
-| `kern-mvp.md` | MVP scope — wat zit erin, wat niet, succesmaatstaven |
-| `kern-backlog.md` | Alles buiten MVP — 8 fases + losse ideeën |
-| `kern-algoritme.md` | Volledig algoritme — 6 vragen, weighting matrix, scoring, LLM-spec, data model |
-| `kern-status.md` | Dit bestand |
+| `waardegedreven-concept.md` | Volledig visiedocument — concept, pillars, app flow, verdienmodel |
+| `waardegedreven-mvp.md` | MVP scope — wat zit erin, wat niet, succesmaatstaven |
+| `waardegedreven-backlog.md` | Alles buiten MVP — 8 fases + losse ideeën |
+| `waardegedreven-algoritme.md` | Volledig algoritme — 6 vragen, weighting matrix, scoring, LLM-spec, data model |
+| `waardegedreven-status.md` | Dit bestand |
 
 ---
 
@@ -107,7 +107,7 @@ Weekse reflecties verfijnen het profiel over tijd
 
 ## Openstaande vragen voor later
 
-- Definitieve naam (Kern is werknaam)
+- Definitieve naam (Waardegedreven is werknaam)
 - Visuele identiteit / kleurpalet
 - Exacte tekst van de 6 vragen (Nederlands, A/B/C/D opties)
 - Push notificatie strategie (maandag + vrijdag ritme)

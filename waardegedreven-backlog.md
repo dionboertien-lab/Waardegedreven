@@ -1,4 +1,4 @@
-# Kern — Backlog
+# Waardegedreven — Backlog
 
 Alles wat bewust buiten de MVP is gehouden, georganiseerd per fase.
 
@@ -65,7 +65,7 @@ Alles wat bewust buiten de MVP is gehouden, georganiseerd per fase.
 - [ ] Betalingsintegratie voor coach-leads (Stripe)
 - [ ] Coach-dashboard: cliëntprofielen inzien (met toestemming gebruiker)
 - [ ] Rating-systeem voor coaches na match
-- [ ] "Word partner van Kern" aanmeldflow voor coaches
+- [ ] "Word partner van Waardegedreven" aanmeldflow voor coaches
 - [ ] Twee betaalmodellen: per lead vs. zichtbaarheidsabonnement
 
 ---

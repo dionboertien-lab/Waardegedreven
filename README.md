@@ -1,17 +1,17 @@
-# Kern
+# Waardegedreven
 
 > *De afstand tussen wie je bent en hoe je leeft, wordt steeds kleiner.*
 
 Een Nederlandstalige waardentest-app die je niet vraagt wie je wilt zijn, maar je
 **betrapt** op wie je echt bent. Vertrekpunt is gedrag, niet abstracte
-zelfrapportage. Kern is geen éénmalige test maar een wekelijks ritueel dat de
+zelfrapportage. Waardegedreven is geen éénmalige test maar een wekelijks ritueel dat de
 kloof tussen je waarden en je gedrag zichtbaar — en kleiner — maakt.
 
 ---
 
 ## Concept in het kort
 
-Kern bouwt op drie theoretische lagen:
+Waardegedreven bouwt op drie theoretische lagen:
 
 | Laag | Theorie | Functie |
 |---|---|---|
@@ -19,10 +19,10 @@ Kern bouwt op drie theoretische lagen:
 | 2 — Begrijpen | Values Bridge (held vs. expressed) | Leef je ze ook echt? |
 | 3 — Handelen | ACT (Acceptance & Commitment Therapy) | Wat staat ertussen? Hoe verander je dat? |
 
-Wat Kern onderscheidt van bestaande waardentests: **gedrag-eerst** (eerlijker dan
+Wat Waardegedreven onderscheidt van bestaande waardentests: **gedrag-eerst** (eerlijker dan
 zelfrapportage), de **gap** als meetbare afstand die over tijd krimpt, een
 **sociale spiegel** (perceptie van anderen) en een **coach marketplace** als
-verdienmodel. Zie [`kern-concept.md`](./kern-concept.md) voor de volledige visie.
+verdienmodel. Zie [`waardegedreven-concept.md`](./waardegedreven-concept.md) voor de volledige visie.
 
 ---
 
@@ -30,11 +30,11 @@ verdienmodel. Zie [`kern-concept.md`](./kern-concept.md) voor de volledige visie
 
 | Document | Inhoud |
 |---|---|
-| [`kern-concept.md`](./kern-concept.md) | Volledige visie — concept, pillars, app flow, verdienmodel |
-| [`kern-mvp.md`](./kern-mvp.md) | MVP-scope — wat zit erin, wat niet, succesmaatstaven |
-| [`kern-backlog.md`](./kern-backlog.md) | Roadmap — 8 fases (spiegel → B2B) + losse ideeën |
-| [`kern-algoritme.md`](./kern-algoritme.md) | Het scoringsalgoritme — matrix, normalisatie, gap, datamodel |
-| [`kern-status.md`](./kern-status.md) | Voortgang, beslissingen en openstaande vragen |
+| [`waardegedreven-concept.md`](./waardegedreven-concept.md) | Volledige visie — concept, pillars, app flow, verdienmodel |
+| [`waardegedreven-mvp.md`](./waardegedreven-mvp.md) | MVP-scope — wat zit erin, wat niet, succesmaatstaven |
+| [`waardegedreven-backlog.md`](./waardegedreven-backlog.md) | Roadmap — 8 fases (spiegel → B2B) + losse ideeën |
+| [`waardegedreven-algoritme.md`](./waardegedreven-algoritme.md) | Het scoringsalgoritme — matrix, normalisatie, gap, datamodel |
+| [`waardegedreven-status.md`](./waardegedreven-status.md) | Voortgang, beslissingen en openstaande vragen |
 
 ---
 
@@ -85,10 +85,10 @@ npx tsc --noEmit
 
 De MVP is gebouwd: gedragsintake → waardenprofiel → gap-meting → wekelijkse
 reflectie. De code heeft een kritische review + fix-ronde doorlopen. Zie
-[`kern-status.md`](./kern-status.md) voor details en volgende stappen.
+[`waardegedreven-status.md`](./waardegedreven-status.md) voor details en volgende stappen.
 
 **Bewust nog open:** backend/identiteit-keuze (nu lokaal), push notificaties,
-en de features uit de [backlog](./kern-backlog.md).
+en de features uit de [backlog](./waardegedreven-backlog.md).
 
 ---
 

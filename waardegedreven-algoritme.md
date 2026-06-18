@@ -1,4 +1,4 @@
-# Kern — Het Algoritme
+# Waardegedreven — Het Algoritme
 
 > Hoe worden gedragsantwoorden een Schwartz-waardenprofiel met Values Bridge gap?
 

@@ -1,4 +1,4 @@
-# Kern — App Concept
+# Waardegedreven — App Concept
 
 > *De afstand tussen wie je bent en hoe je leeft, wordt steeds kleiner.*
 
@@ -25,7 +25,7 @@ Deze lagen zijn gratis te gebruiken: de Schwartz-theorie en PVQ-21 zijn public d
 ## Vijf concept pillars
 
 ### 1. Gedrag eerst — eerlijker dan zelfrapportage
-Alle bestaande waardentests beginnen met "wat vind je belangrijk?" — vatbaar voor sociale wenselijkheid. Kern begint met concrete gedragsvragen over de afgelopen week. Uit gedrag worden impliciete waarden gedestilleerd. Verrassender, eerlijker, en minder te gamemen.
+Alle bestaande waardentests beginnen met "wat vind je belangrijk?" — vatbaar voor sociale wenselijkheid. Waardegedreven begint met concrete gedragsvragen over de afgelopen week. Uit gedrag worden impliciete waarden gedestilleerd. Verrassender, eerlijker, en minder te gamemen.
 
 ### 2. De Gap als kern — niet een lijst maar een afstand
 De Values Bridge gap (verschil tussen belang en hoe sterk je het leeft) is de emotionele kern van het product. Niet "dit zijn je waarden" maar "hier zit de afstand tussen wie je wilt zijn en wie je bent." Die afstand wordt meetbaar en krimpt zichtbaar over tijd.
@@ -43,7 +43,7 @@ Coaches kunnen aanbevolen worden op basis van de waarden + gap van gebruikers. T
 
 ## Marktpositie
 
-| Dimensie | Bestaande markt | Kern |
+| Dimensie | Bestaande markt | Waardegedreven |
 |---|---|---|
 | Startpunt | Zelfrapportage van waarden | Gedrag → waarden |
 | Output | Lijst met waarden | Meetbare gap die krimpt |
@@ -53,7 +53,7 @@ Coaches kunnen aanbevolen worden op basis van de waarden + gap van gebruikers. T
 | Prijs | Gratis (oppervlakkig) of €99+ (coaching) | Freemium |
 | Doelgroep | Individu of enterprise | Individu + coach marketplace |
 
-**Wit vlak:** Er bestaat geen gratis, kwalitatieve, volledig Nederlandstalige waardentest met wetenschappelijke basis, longitudinal tracking, en sociale laag. Dat is Kern.
+**Wit vlak:** Er bestaat geen gratis, kwalitatieve, volledig Nederlandstalige waardentest met wetenschappelijke basis, longitudinal tracking, en sociale laag. Dat is Waardegedreven.
 
 ---
 
@@ -199,9 +199,9 @@ Zichtbaar na 2-3 weken gebruik (zodat matchingdata beschikbaar is).
 
 - Coaches gematcht op basis van gebruikers gap-profiel
 - Coaches tonen specialisatie per waarde
-- Rating gebaseerd op eerdere matches via Kern
+- Rating gebaseerd op eerdere matches via Waardegedreven
 - Coaches betalen voor zichtbaarheid en leads
-- CTA voor coaches: *"Word partner van Kern"*
+- CTA voor coaches: *"Word partner van Waardegedreven"*
 
 ---
 

@@ -1,4 +1,4 @@
-# Kern — MVP Scope
+# Waardegedreven — MVP Scope
 
 > Doel: valideren dat gebruikers terugkomen voor de weekse reflectie na een gedrag-eerste waardenprofiel.
 
