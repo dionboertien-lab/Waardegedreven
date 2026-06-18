@@ -2,6 +2,7 @@
   "expo": {
     "name": "kern",
     "slug": "kern",
+    "owner": "DionB10",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,6 +21,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0f18e552-3751-4dcb-93af-f37149ded4b3"
+      }
     }
   }
 }
